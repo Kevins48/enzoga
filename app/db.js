@@ -75,7 +75,7 @@ module.exports.initialize = function(dbSettings){
         port = dbSettings.port
 
     // String koneksi database (URL tempat database hidup)
-    let dbURL = 'postgres://' + username + ':' + password + '@' + host + ':' + port + '/' + databaseName;
+    let dbURL = 'postgres://' + username + ':' + password + '@' + host + ':' + port + '/' + databaseName + "?sslmode=require";
 
     // Menghidupkan koneksi database
     sequelize = new Sequelize(dbURL, { logging: false });
