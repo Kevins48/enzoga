@@ -88,9 +88,9 @@ module.exports.initialize = function(dbSettings){
         rejectUnauthorized: false
     } });
 
-    require('./models/user');
-    require('./models/item');
-    require('./models/cart');
+    require('./models/user').sync();
+    require('./models/item').sync();
+    require('./models/cart').sync();
 }
 
 module.exports.db = function(){
