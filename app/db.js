@@ -55,7 +55,10 @@ module.exports.db_init = function(dbSettings, admin_config, heroku = false){
 
         sequelize = new Sequelize(dbURL, { 
             logging: false,
-            ssl: true,
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            },
         });
     
         const user = require('./models/user');
@@ -80,7 +83,10 @@ module.exports.initialize = function(dbSettings){
     let dbURL = 'postgres://' + username + ':' + password + '@' + host + ':' + port + '/' + databaseName + "?sslmode=require";
 
     // Menghidupkan koneksi database
-    sequelize = new Sequelize(dbURL, { logging: false, ssl: true });
+    sequelize = new Sequelize(dbURL, { logging: false, ssl: {
+        require: true,
+        rejectUnauthorized: false
+    } });
 
     require('./models/user');
     require('./models/item');
