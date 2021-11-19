@@ -62,9 +62,11 @@ module.exports.db_init = function(dbSettings, admin_config, heroku = false){
         });
     
         const user = require('./models/user');
+        const item = require('./models/item');
 
         sequelize.sync({ force: true }).then((sequelize) => {
             user.createAdmin(admin_config.username, admin_config.password, admin_config.email, admin_config.front_name, admin_config.last_name);
+            item.initialize();
 
             console.log('Success initializing database!')
         });
