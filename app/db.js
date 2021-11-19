@@ -51,7 +51,7 @@ module.exports.db_init = function(dbSettings, admin_config, heroku = false){
 
     // Jika menggunakan heroku
     } else {
-        let dbURL = 'postgres://' + username + ':' + password + '@' + host + ':' + port + '/' + databaseName;
+        let dbURL = 'postgres://' + username + ':' + password + '@' + host + ':' + port + '/' + databaseName + "?sslmode=require";
 
         sequelize = new Sequelize(dbURL, { logging: false });
     
