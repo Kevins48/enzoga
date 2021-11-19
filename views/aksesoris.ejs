@@ -1,0 +1,119 @@
+<%- include('layout/header', {title : "Aksesoris", style: "Shop.css"}) %>
+<section class="NEW ARRIVAl section-shop">
+          
+  <div class="arrival-heading">
+      <strong>Aksesoris</strong>
+      <p>Topi, Tas dan Aksesoris lainnya</p>
+  </div>
+    <div class="product-container">
+        
+        <div class="product-box">
+            <div class="product-img">
+                <a onclick="AddToCart(16)" class="add-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                  </a>
+              <img src="tas1.jpg">
+            </div>
+            <div class="product-details">
+                <a href="#" class="p-name">Waistbag</a>
+                <span class="p-price">Rp. 55k</span>
+                <span class="p-price display-stock" item-id="16">Stok: 10</span>
+                <span class="p-price display-cart" item-id="16">In Cart: 0</span>
+            </div>
+        </div>
+          <div class="product-box">
+              <div class="product-img">
+                <a onclick="AddToCart(17)" class="add-cart"><i class="fas fa-shopping-cart"></i></a>
+                <img src="topi.jpg">
+              </div>
+              <div class="product-details">
+                  <a href="#" class="p-name">Bucket Hat </a>
+                  <span class="p-price">Rp. 45k</span>
+                  <span class="p-price display-stock" item-id="17">Stok: 10</span>
+                <span class="p-price display-cart" item-id="17">In Cart: 0</span>
+              </div>
+          </div>
+        <div class="product-box">
+          <div class="product-img">
+              <a onclick="AddToCart(18)" class="add-cart"><i class="fas fa-shopping-cart"></i></a>
+            <img src="syal.jpg">
+          </div>
+          <div class="product-details">
+              <a href="#" class="p-name">Syal Hitam</a>
+              <span class="p-price">Rp. 35k</span>
+              <span class="p-price display-stock" item-id="18">Stok: 10</span>
+                <span class="p-price display-cart" item-id="18">In Cart: 0</span>
+          </div>
+      </div>
+        <div class="product-box">
+          <div class="product-img">
+              <a onclick="AddToCart(19)" class="add-cart"><i class="fas fa-shopping-cart"></i></a>
+            <img src="kupluk.jpg">
+          </div>
+          <div class="product-details">
+              <a href="#" class="p-name">kupluk Hitam</a>
+              <span class="p-price">Rp. 40k</span>
+              <span class="p-price display-stock" item-id="19">Stok: 10</span>
+                <span class="p-price display-cart" item-id="19">In Cart: 0</span>
+          </div>
+      </div>
+    </div>
+</section>
+
+<script>
+  let currentlyBuying = [];
+
+function AddToCart(itemId) {
+  if (currentlyBuying.indexOf(itemId) === -1) {
+    currentlyBuying.push(itemId);
+  } else {
+    return;
+  }
+  $.ajax({
+    url: '/cart/add/' + itemId,
+    type: 'POST',
+    success: function(data) {
+      updateDisplay();
+      iziToast.show({
+          title: 'Attention',
+          message: data['Message'], 
+          timeout: 1000,
+      });
+      currentlyBuying.splice(currentlyBuying.indexOf(itemId), 1);
+    }
+  });
+}
+
+const allStock = $(".display-stock").map(function() {
+    return $(this);
+}).get();
+const allCart = $(".display-cart").map(function() {
+    return $(this);
+}).get();
+
+function updateDisplay() {
+  for(i in allStock){
+    let stock = allStock[i];
+    let cart = allCart[i];
+    let itemIdStock = stock.attr("item-id");
+    let itemIdCart = cart.attr("item-id");
+    $.ajax({
+      url: '/stock/' + itemIdStock,
+      type: 'GET',
+      success: function(data) {
+        stock.html("Stok: " + data['stock']);
+      }
+    });
+    $.ajax({
+      url: '/cart/qty/' + itemIdCart,
+      type: 'GET',
+      success: function(data) {
+        cart.html("In Cart: " + data['qty']);
+      }
+    });
+  }
+}
+
+window.onload = updateDisplay();
+</script>
+<%- include('layout/footer') %>

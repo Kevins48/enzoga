@@ -1,0 +1,13 @@
+{
+    "secret": "STRONG_SECRET_KEY",
+    "databaseConfig": {
+        "databaseName": "enzogadb",
+        "host": "localhost",
+        "port": 5432,
+        "username": "UNAME",
+        "password": "PASSW",
+        "defaultDb": "postgres"
+    },
+    "static_files_dir": "./static/",
+    "port": "80"
+}

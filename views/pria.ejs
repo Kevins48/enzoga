@@ -1,0 +1,149 @@
+<%- include('layout/header', {title : "Pria", style: "Shop.css"}) %>
+<section class="NEW ARRIVAl section-shop">
+            
+  <div class="arrival-heading">
+      <strong>Atasan</strong>
+      <p>Kaos, kemeja & jaket</p>
+  </div>
+    <div class="product-container">
+        <div class="product-box">
+            <div class="product-img">
+                <a class="add-cart" onclick="AddToCart(1)">
+                    <i class="fas fa-shopping-cart"></i>
+                  </a>
+              <img src="pria1.jpg">
+            </div>
+            <div class="product-details">
+                <a class="p-name">kemeja putih</a>
+                <span class="p-price">Rp. 100k</span>
+                <span class="p-price display-stock" item-id="1">Stok: 10</span>
+                <span class="p-price display-cart" item-id="1">In Cart: 0</span>
+            </div>
+        </div>
+          <div class="product-box">
+              <div class="product-img">
+                <a onclick="AddToCart(2)" class="add-cart"><i class="fas fa-shopping-cart"></i></a>
+                <img src="pria2.jpg">
+              </div>
+              <div class="product-details">
+                  <a class="p-name">Sweater hitam</a>
+                  <span class="p-price">Rp. 70k</span>
+                  <span class="p-price display-stock" item-id="2">Stok: 10</span>
+                  <span class="p-price display-cart" item-id="2">In Cart: 0</span>
+              </div>
+          </div>
+        <div class="product-box">
+          <div class="product-img">
+              <a onclick="AddToCart(3)" class="add-cart"><i class="fas fa-shopping-cart"></i></a>
+            <img src="pria3.jpg">
+          </div>
+          <div class="product-details">
+              <a class="p-name">Sweater putih</a>
+              <span class="p-price">Rp. 50k</span>
+              <span class="p-price display-stock" item-id="3">Stok: 10</span>
+              <span class="p-price display-cart" item-id="3">In Cart: 0</span>
+          </div>
+      </div>
+        <div class="product-box">
+          <div class="product-img">
+              <a onclick="AddToCart(4)" class="add-cart"><i class="fas fa-shopping-cart"></i></a>
+            <img src="pria4.jpg">
+          </div>
+          <div class="product-details">
+              <a class="p-name">Jaket merah</a>
+              <span class="p-price">Rp. 200k</span>
+              <span class="p-price display-stock" item-id="4">Stok: 10</span>
+              <span class="p-price display-cart" item-id="4">In Cart: 0</span>
+          </div>
+      </div>
+    </div>
+</section>
+</body>
+</html>
+
+
+ <section class="new-arrival section-shop">
+          
+  <div class="arrival-heading">
+      <strong>Bawahan</strong>
+      <p>Celana panjang dan pendek</p>
+  </div>
+    <div class="product-container">
+        
+        <div class="product-box">
+
+            <div class="product-img">
+                <a onclick="AddToCart(5)" class="add-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                  </a>
+              <img src="pria5.jpg">
+            </div>
+            <div class="product-details">
+                <a class="p-name">tracker pants</a>
+                <span class="p-price">Rp. 150k</span>
+                <span class="p-price display-stock" item-id="5">Stok: 10</span>
+                <span class="p-price display-cart" item-id="5">In Cart: 0</span>
+            </div>
+        </div>
+          </div>
+      </div>
+    </div>
+</section>
+
+<script>
+  let currentlyBuying = [];
+
+  function AddToCart(itemId) {
+    if (currentlyBuying.indexOf(itemId) === -1) {
+      currentlyBuying.push(itemId);
+    } else {
+      return;
+    }
+    $.ajax({
+      url: '/cart/add/' + itemId,
+      type: 'POST',
+      success: function(data) {
+        updateDisplay();
+        iziToast.show({
+            title: 'Attention',
+            message: data['Message'], 
+            timeout: 1000,
+        });
+        currentlyBuying.splice(currentlyBuying.indexOf(itemId), 1);
+      }
+    });
+  }
+
+  const allStock = $(".display-stock").map(function() {
+      return $(this);
+  }).get();
+  const allCart = $(".display-cart").map(function() {
+      return $(this);
+  }).get();
+
+  function updateDisplay() {
+    for(i in allStock){
+      let stock = allStock[i];
+      let cart = allCart[i];
+      let itemIdStock = stock.attr("item-id");
+      let itemIdCart = cart.attr("item-id");
+      $.ajax({
+        url: '/stock/' + itemIdStock,
+        type: 'GET',
+        success: function(data) {
+          stock.html("Stok: " + data['stock']);
+        }
+      });
+      $.ajax({
+        url: '/cart/qty/' + itemIdCart,
+        type: 'GET',
+        success: function(data) {
+          cart.html("In Cart: " + data['qty']);
+        }
+      });
+    }
+  }
+
+  window.onload = updateDisplay();
+</script>
+<%- include('layout/footer') %>

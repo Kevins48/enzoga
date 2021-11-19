@@ -1,0 +1,29 @@
+<%- include('layout/header', {title : "Manage", style: "Shop.css"}) %>
+<% for (i in items) { %>
+  <section style="height: 3cm;">
+    <img src="<%= items[i].image_url %>" style="height: 3cm;"/>
+    <div class="kolom">
+        <p><%= items[i].nama %> - <%= items[i].category %></p>
+        <label for="qty">Qty:</label>
+        <input type="number" id="val.<%= items[i].item_id %>" name="qty" value="<%= items[i].qty %>" min="0" style="width: 50px;">
+        <button onclick="update(<%= items[i].item_id %>)">Update</button>
+    </div>
+  </section>
+<% } %>
+<script>
+  function update(item_id){
+    let newStock = document.getElementById("val."+item_id).value;
+    $.ajax({
+      url: '/stock/update/'+item_id+'/'+newStock,
+      type: 'POST',
+      success: function(data){
+        if (data['status'] === 'success') {
+          alert('Stock updated');
+        } else {
+          alert('Failed to update stock');
+        }
+      }
+    });
+  }
+</script>
+<%- include('layout/footer') %>

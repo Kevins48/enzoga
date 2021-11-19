@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" style="min-height: 100%;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up || Enzoga</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital@1&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        input[type=text],
+        input[type=password] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        input[type=text]:focus,
+        input[type=password]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        button {
+            background-color: #04AA6D;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        button:hover {
+            opacity: 1;
+        }
+
+        .cancelbtn {
+            padding: 14px 20px;
+            background-color: #f44336;
+        }
+
+        .cancelbtn,
+        .signupbtn {
+            float: left;
+            width: 50%;
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        @media screen and (max-width: 300px) {
+
+            .cancelbtn,
+            .signupbtn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <form id="register" name="register" method="post" action="<%= locals.current_path %> "
+        style="border:1px solid #ccc">
+        <div class="container">
+            <h1>Sign Up</h1>
+            <p>Please fill in this form to create an account.</p>
+            <hr>
+
+            <label for="nama_depan"><b>First Name</b></label>
+            <input type="text" name="nama_depan" id="first-name" class="form-control" placeholder="First name">
+
+            <label for="nama_belakang"><b>Last Name</b></label>
+            <input type="text" name="nama_belakang" id="last-name" class="form-control" placeholder="Last name">
+
+            <label for="username"><b>Username</b></label>
+            <input type="text" id="register-username" placeholder="Enter Username" name="username" required>
+
+            <label for="email"><b>Email</b></label>
+            <input type="text" id="register-email" placeholder="Enter Email" name="email" required>
+
+            <label for="password"><b>Password</b></label>
+            <input type="password" id="register-password" placeholder="Enter Password" name="password" required>
+
+            <div class="password" id="pass-validator">
+                <label for="password-repeat"><b>Re-enter Password</b></label>
+                <input type="password" name="passValidation" id="register-password-validate"
+                    placeholder="Re-enter Password" required><br>
+
+                <span id="warn-pw" style="display: none;">Password tidak sama</span>
+                <span id="warn-empty" style="display: none;">Tolong isi semua data yang diperlukan</span>
+
+                <% if (locals.message) { %>
+                    <span id="warn-pw">
+                        <%= message %>
+                    </span>
+                    <% } %>
+            </div>
+
+            <div class="clearfix">
+                <button type="submit" id="registerbutton" class="signupbtn">Sign Up</button>
+            </div>
+        </div>
+    </form>
+
+    <div>
+
+        <script>
+            function validate() {
+                var username = document.getElementById("register-username").value;
+                var email = document.getElementById("register-email").value;
+                var pass = document.getElementById("register-password").value;
+                var passValidate = document.getElementById("register-password-validate").value;
+                var load = document.getElementById("pass-validator");
+                var warning = document.getElementById("mark");
+                var warnPW = document.getElementById("warn-pw");
+                var warnempty = document.getElementById("warn-empty");
+
+                warning.style.display = "none";
+                warnPW.style.display = "none";
+                warnempty.style.display = "none";
+
+                if (pass == "" || username == "" || email == "") {
+                    warning.style.display = "inline-block";
+                    warnempty.style.display = "inline-block";
+                }
+                else if (pass != passValidate) {
+                    load.style.paddingLeft = '0.0cm';
+                    warning.style.display = "inline-block";
+                    warnPW.style.display = "inline-block";
+                }
+                else {
+                    load.style.paddingLeft = '0cm';
+                    document.getElementById("register").submit();
+                }
+            }
+
+            document.getElementById("registerbutton").addEventListener("click", validate);
+        </script>
+</body>
+
+</html>

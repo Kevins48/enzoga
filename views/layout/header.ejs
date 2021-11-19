@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title><%= title %></title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="/css/style.css">
+  <% if (locals.style) { %>
+  <link rel="stylesheet" href="/css/<%= style %>">
+  <% } %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital@1&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js" integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" integrity="sha512-O03ntXoVqaGUTAeAmvQ2YSzkCvclZEcPQu1eqloPaHfJ5RuNGiS4l+3duaidD801P50J28EHyonCV06CUlTSag==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <nav>
+        <div class="wrapper">
+            <div class="logo"><a href='/'>Enzoga</a></div>
+            <div class="menu">
+                <ul>
+                    <li><a href="/#aboutus">About us</a></li>
+                    <li><a href="/pria">Pria</a>
+                        <ul calss ="drop">
+                            <li><a href="/pria">Atasan</a></li>
+                            <li><a href="/pria">Bawahan</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/wanita">Wanita</a>
+                         <ul>
+                             <li><a href="/wanita">Atasan</a></li>
+                             <li><a href="/wanita">Bawahan</a></li>                             
+                        </ul>
+                    </li>
+                    <li><a href="/anak">Anak</a>
+                    <ul>
+                        <li><a href="/anak">Atasan</a></li>
+                        <li><a href="/anak">Bawahan</a></li> 
+                    </ul>
+                </li>
+                    <li><a href="/aksesoris">Aksesoris</a></li>
+                    <% if (!locals.user) { %>
+                        <li><a href="/register" class="tbl-biru">Sign up</a></li>
+                        <li><a href="/login" class="tbl-biru">Sign in</a></li>
+                    <% } else { %>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/logout">Log out</a></li>
+                        <% if (locals.user['user_type'] == 0) { %>
+                            <li><a href="/manage">Manage Stock</a></li>
+                        <% } %>
+                        <li style="color: bisque;">Welcome <%= locals.user['nama_depan'] %> <%= locals.user['nama_belakang'] %></li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="wrapper">            

@@ -1,0 +1,16 @@
+<%- include('layout/header', {title : "Cart", style: "Shop.css"}) %>
+<% for (i in item) { %>
+  <section style="height: 3cm;">
+    <img src="<%= item[i].url %>" style="height: 3cm;"/>
+    <div class="kolom">
+        <p><%= item[i].name %> <%= item[i].qty %>pcs @ Rp. <%= item[i].price %>, Total: <%= item[i].total %><a href="/cart/remove/<%= item[i].cart_id %>"> Remove</a></p>
+    </div>
+  </section>
+<% } %>
+<section style="height: 3cm;">
+  <div class="kolom">
+    <p>Total : Rp. <%= total.harga %></p>
+    <a href="/cart/checkout">Checkout</a>
+  </div>
+</section>
+<%- include('layout/footer') %>
