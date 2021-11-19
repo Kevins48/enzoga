@@ -53,7 +53,10 @@ module.exports.db_init = function(dbSettings, admin_config, heroku = false){
     } else {
         let dbURL = 'postgres://' + username + ':' + password + '@' + host + ':' + port + '/' + databaseName + "?sslmode=require";
 
-        sequelize = new Sequelize(dbURL, { logging: false });
+        sequelize = new Sequelize(dbURL, { 
+            logging: false,
+            ssl: true,
+        });
     
         const user = require('./models/user');
 
@@ -62,8 +65,7 @@ module.exports.db_init = function(dbSettings, admin_config, heroku = false){
 
             console.log('Success initializing database!')
         });
-    }
-    
+    }    
 };
 
 // membuat koneksi antara webapp dengan database
@@ -78,7 +80,7 @@ module.exports.initialize = function(dbSettings){
     let dbURL = 'postgres://' + username + ':' + password + '@' + host + ':' + port + '/' + databaseName + "?sslmode=require";
 
     // Menghidupkan koneksi database
-    sequelize = new Sequelize(dbURL, { logging: false });
+    sequelize = new Sequelize(dbURL, { logging: false, ssl: true });
 
     require('./models/user');
     require('./models/item');
